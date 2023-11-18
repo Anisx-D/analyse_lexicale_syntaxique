@@ -1,0 +1,22 @@
+Elimination de l'ambiguité de la récursivité à gauche de la grammaire:
+
+P        -> program id ; Dcl Inst_composée .
+Dcl      -> var Liste_id : Type Dcl' | ε
+Dcl'     -> ; Dcl | ε
+Liste_id -> id Liste_id' 
+Liste_id'-> , id Liste_id' | ε
+Type     -> integer | char
+Inst_composée -> begin Inst end
+Inst     -> Liste_inst Inst' | ε
+Inst'    -> ; Inst | ε
+Liste_inst -> I Liste_inst' 
+Liste_inst'-> ; Liste_inst | ε
+I        -> id := Exp_simple | if Exp then I else I | while Exp do I
+            | read(id) | readln(id) | write(id) | writeln(id)
+Exp      -> Exp_simple Exp'
+Exp'     -> oprel Exp_simple | ε
+Exp_simple -> Terme Exp_simple'
+Exp_simple'-> opadd Terme Exp_simple' | ε
+Terme    -> Facteur Terme'
+Terme'   -> opmul Facteur Terme' | ε
+Facteur  -> id | nb | (Exp_simple)
